@@ -1,0 +1,27 @@
+# Litmus ChaosCenter Helm values for local kind cluster
+portal:
+  frontend:
+    service:
+      type: NodePort
+  server:
+    graphqlServer:
+      genericEnv:
+        # Internal cluster endpoint so the frontend can reach the backend
+        CHAOS_CENTER_UI_ENDPOINT: "http://chaos-litmus-frontend-service.litmus.svc.cluster.local:9091"
+
+# MongoDB image 
+mongodb:
+  image:
+    registry: ghcr.io/zcube
+    repository: bitnami-compat/mongodb
+    tag: "6.0"
+  auth:
+    enabled: true
+    rootUser: "root"
+    rootPassword: "1234"
+  architecture: replicaset
+  replicaCount: 3
+  persistence:
+    enabled: true
+  volumePermissions:
+    enabled: true
